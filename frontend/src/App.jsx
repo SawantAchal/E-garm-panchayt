@@ -6,18 +6,23 @@ import Sidebar from './components/Sidebar'
 import ApplicationForm from './components/ApplicationForm'
 import ApplicationStatus from './components/ApplicationStatus'
 import Profile from './components/Profile'
+import { Route, Routes } from 'react-router-dom'
 
 function App() {
 
   return (
     <>
       <Navbar/>
-      <Sidebar/>
-      <Login/>
-      <AllServices/>
-      <ApplicationForm/>
-      <ApplicationStatus/>
-      <Profile/>
+      <div className='flex pt-16'>
+        <Sidebar className="w-1/4 min-h-screen "/>
+        <div className='flex-1 ml-64'>
+          <Routes>
+            <Route path='/allServices' element={<AllServices/>}/>
+            <Route path='/applicationStatus' element={<ApplicationStatus/>}/>
+            <Route path='/profile' element={<Profile/>}/>
+          </Routes>
+        </div>
+      </div>
     </>
   )
 }

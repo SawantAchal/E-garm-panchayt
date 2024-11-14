@@ -4,7 +4,7 @@ const Login = () => {
     const [currentState , setCurrentState] = useState("login")
   return (
     <>
-        <div className='fixed inset-0 z-10 w-full h-full bg-neutral-800 bg-opacity-50 flex justify-center items-center'>
+        <div className=' inset-0 z-10 w-full h-full an bg-opacity-50 flex'>
             <form className='w-[max(23vw,330px)] bg-white text-gray-600 flex flex-col gap-6 rounded-lg shadow-lg animate-fadeIn p-8'>
                 <div className='flex justify-between items-center text-xl font-semibold text-gray-800'>
                     <h2>{currentState}</h2>
