@@ -3,6 +3,7 @@ import cors from 'cors'
 import 'dotenv/config'
 import { connectDB } from './config/db.js';
 import userRouter from './routes/userRoute.js';
+import serviceRouter from './routes/serviceRoute.js';
 
 //app config
 const app = express();
@@ -17,6 +18,7 @@ connectDB();
 
 //Routes
 app.use('/api/user' , userRouter)
+app.use('/api/service' , serviceRouter)
 
 // request the data for server
 app.get('/' , (req , res) => {
