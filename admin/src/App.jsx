@@ -1,33 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {Routes , Route} from 'react-router-dom'
+import AddService from './components/AddService'
+import AllServices from './components/AllServices'
+import AddStaff from './components/AddStaff'
+import AllStaff from './components/AllStaff'
+import Navbar from './components/Navbar'
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from './components/Sidebar'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const url = 'http://localhost:4000'
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <ToastContainer/>
+      <Navbar/>
+      <div className='flex pt-16'>
+        <Sidebar className="w-1/4 min-h-screen "/>
+        <div className='flex-1 ml-64'>
+          <Routes>
+            <Route path='/addService' element={<AddService url={url}/>} />
+            <Route path='/allService' element={<AllServices url={url}/>} />
+            <Route path='/addStaff' element={<AddStaff  url={url}/>} />
+            <Route path='/allStaff' element={<AllStaff  url={url}/>} />
+          </Routes>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
