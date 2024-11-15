@@ -70,7 +70,6 @@ const registerUser = async(req, res) => {
 
 // information of particular user
 const getUserProfile = async (req, res) => {
-    console.log('logg')
     const { userId } = req.body; 
     try {
         const user = await userModel.findOne({ _id: userId });
