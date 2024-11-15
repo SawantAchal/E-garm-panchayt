@@ -13,6 +13,7 @@ function App() {
   return (
     <>
       <Navbar/>
+      <Login/>
       <div className='flex pt-16'>
         <Sidebar className="w-1/4 min-h-screen "/>
         <div className='flex-1 ml-64'>
@@ -20,6 +21,7 @@ function App() {
             <Route path='/allServices' element={<AllServices/>}/>
             <Route path='/applicationStatus' element={<ApplicationStatus/>}/>
             <Route path='/profile' element={<Profile/>}/>
+            <Route path='/appliForm' element={<ApplicationForm/>}/>
           </Routes>
         </div>
       </div>
