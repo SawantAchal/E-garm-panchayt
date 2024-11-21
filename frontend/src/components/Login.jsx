@@ -1,72 +1,109 @@
 import React, { useContext, useState } from 'react'
-import { StoreContext } from '../context/storeContext'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { StoreContext } from '../context/storeContext';
 
-const Login = () => {
-    const [currentState , setCurrentState] = useState("login")
-    const {url , token , setToken} = useContext(StoreContext)
-    const navigate = useNavigate()
+const Login = ({ setIsAuthenticated }) => {
+  const [currentState, setCurrentState] = useState('login');
+  const { url, setToken } = useContext(StoreContext);
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const [data, setData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-    const [data, setData] = useState({
-        name:'' ,
-        email:'',
-        password:''
-    })
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+    setData((prevData) => ({ ...prevData, [name]: value }));
+    if (name === 'confirmPassword') {
+      setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: value !== data.password ? 'Passwords do not match' : '',}));
+    }
+  };
 
-    const onChangeHandler = (event) =>{
-        const name = event.target.name
-        const value = event.target.value
-        setData(data => ({...data,[name]:value}))
+  const validateForm = () => {
+    let valid = true;
+    let validationErrors = {};
+    if (currentState === 'Sign Up') {
+      if (data.password !== data.confirmPassword) {
+        validationErrors.confirmPassword = 'Passwords do not match';
+        valid = false;
+      }
+    }
+    setErrors(validationErrors);
+    return valid;
+  };
+    
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
     }
 
-    const onSubmit = async (e) => {
-        e.preventDefault() ;
-        let newUrl = url
-        if (currentState === 'login') {
-            newUrl += '/api/user/login'
-        } else {
-            newUrl += '/api/user/register'
+    let endpoint = `${url}/api/user/${currentState === 'login' ? 'login' : 'register'}`;
+      try {
+        const response = await axios.post(endpoint, data);
+          if (response.data.success) {
+            if (currentState === 'login') {
+              setToken(response.data.token);
+              localStorage.setItem('gram_panchayt', response.data.token);
+              setIsAuthenticated(true);
+              toast.success('Login successful');
+              navigate('/allServices');
+            } else {
+              toast.success('Signup successful! Please login.');
+              setCurrentState('login');
+            }
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          toast.error('An error occurred. Please try again.');
         }
-        const response = await axios.post(newUrl, data)
-        if (response.data.success) {
-            setToken(response.data.token)
-            console.log(response.data.data)
-            localStorage.setItem('gram panchayt' , response.data.token)
-            toast.success('login successfully')
-            // navigate('/')
-        } else {
-            toast.error(response.data.message)
-        }
-    }
+  };
 
   return (
-    <>
-        <div className=' inset-0 z-10 w-full h-full an bg-opacity-50 flex'>
-            <form onSubmit={onSubmit} className='w-[max(23vw,330px)] bg-white text-gray-600 flex flex-col gap-6 rounded-lg shadow-lg animate-fadeIn p-8'>
-                <div className='flex justify-between items-center text-xl font-semibold text-gray-800'>
-                    <h2>{currentState}</h2>
-                </div>
-                <div className='flex flex-col gap-5'>
-                {/* to remove input field when state is login */}
-                {
-                    currentState==="login"? <></> :<input type='text' name='name'value={data.name}   onChange={onChangeHandler} placeholder='Your Name' required className='border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500' />
-                }
-                <input type='email' onChange={onChangeHandler} value={data.email} name='email' placeholder='Your Email id' required className='border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500'/>
-                <input type='password' onChange={onChangeHandler} value={data.password} name='password' placeholder='Password' required className='border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500'/>
-            </div>
-            <button type='submit' className='p-3 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition duration-300'>
-                {
-                    currentState==="Sign Up" ? "Create account" : "Login"
-                }
-            </button>
-            {
-                currentState==="login"?<p className="text-sm">Create a new account? {" "}<span onClick={() => setCurrentState("Sign Up")} className='text-red-700 cursor-pointer font-medium'>Click here</span></p>:<p className="text-sm">Already have an account? {" "}<span onClick={() => setCurrentState("login")}  className='text-red-700 cursor-pointer font-medium'>Login here</span></p>
-            }
-        </form>
-    </div>
-    </>
+    <div className="inset-0 z-10 w-full h-full flex bg-gray-100 bg-opacity-50">
+      <form onSubmit={onSubmit} className="w-[max(23vw,330px)] bg-white text-gray-600 flex flex-col gap-6 rounded-lg shadow-lg animate-fadeIn p-8">
+      <div className="flex justify-between items-center text-xl font-semibold text-gray-800">
+        <h2>{currentState === 'login' ? 'Login' : 'Sign Up'}</h2>
+      </div>
+      <div className="flex flex-col gap-5">
+        {
+          currentState === 'Sign Up' && (
+            <input type="text" name="name" value={data.name} onChange={onChangeHandler} placeholder="Your Name" required className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"/>
+          )
+        }
+        <input type="email" name="email" value={data.email} onChange={onChangeHandler} placeholder="Your Email" required className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" />
+        <input type="password" name="password" value={data.password} onChange={onChangeHandler} placeholder="Password" required className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"/>
+        {
+          currentState === 'Sign Up' && (
+            <>
+              <input type="password" name="confirmPassword" value={data.confirmPassword} onChange={onChangeHandler} placeholder="Confirm Password" required className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"/>
+              {
+                errors.confirmPassword && (
+                  <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
+                )
+              }
+            </>
+          )
+        }
+      </div>
+      <button type="submit" className="p-3 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition duration-300">
+        {currentState === 'login' ? 'Login' : 'Create Account'}
+      </button>
+      {
+        currentState === 'login' ? (
+          <p className="text-sm">Create a new account?{' '}<span onClick={() => setCurrentState('Sign Up')} className="text-red-700 cursor-pointer font-medium"> Click here</span> </p>
+        ) : (
+          <p className="text-sm">Already have an account?{' '}<span onClick={() => setCurrentState('login')} className="text-red-700 cursor-pointer font-medium"> Login here </span> </p>
+        )
+      }
+    </form>
+  </div>
   )
 }
 
