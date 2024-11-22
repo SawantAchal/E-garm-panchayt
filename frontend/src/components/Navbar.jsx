@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { StoreContext } from '../context/storeContext';
+import React, {  useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ setIsAuthenticated }) => {
