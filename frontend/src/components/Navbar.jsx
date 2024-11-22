@@ -3,7 +3,7 @@ import { StoreContext } from '../context/storeContext';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ setIsAuthenticated }) => {
-  const { setToken } = useContext(StoreContext);
+  const [token , setToken] = useState([])
   const navigate = useNavigate();
 
   const logout = () => {

@@ -4,8 +4,7 @@ import { StoreContext } from '../context/storeContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const AllServices = () => {
-  const { url } = useContext(StoreContext);
+const AllServices = ({url}) => {
   const [services, setServices] = useState([]);
 
   const fetchAllServices = async () => {

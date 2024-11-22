@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import 'dotenv'
 
 export const StoreContext = createContext(null)
 

@@ -3,8 +3,7 @@ import { StoreContext } from '../context/storeContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const Profile = () => {
-  const { url } = useContext(StoreContext);
+const Profile = ({url}) => {
   const [profile, setProfile] = useState([]);
 
   const fetchUserProfile = async () => {

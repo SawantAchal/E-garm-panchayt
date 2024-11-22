@@ -4,8 +4,7 @@ import { StoreContext } from '../context/storeContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const ApplicationForm = () => {
-  const { url } = useContext(StoreContext);
+const ApplicationForm = ({url}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { serviceId, serviceName } = location.state;

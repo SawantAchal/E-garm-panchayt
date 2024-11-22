@@ -8,7 +8,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
-import 'dotenv'
+
 
 const ProtectedRoute = ({ children, isAuthenticated }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
@@ -16,6 +16,7 @@ const ProtectedRoute = ({ children, isAuthenticated }) => {
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState( !!localStorage.getItem('gram_panchayt'));
+  const url = import.meta.env.VITE_BACKEND_URL;
 
   return (
     <>
@@ -28,10 +29,10 @@ function App() {
         {/* Content */}
         <div className={`flex-1 bg-gradient-to-r from-lightBg to-secondary ${isAuthenticated ? 'ml-64' : ''} p-4`}>
           <Routes>
-            <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />}/>
-            <Route path="/allServices" element={ <ProtectedRoute isAuthenticated={isAuthenticated}> <AllServices /> </ProtectedRoute> }/>
-            <Route path="/profile" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Profile /></ProtectedRoute>} />
-            <Route path="/appliForm" element={<ProtectedRoute isAuthenticated={isAuthenticated}><ApplicationForm /></ProtectedRoute> } />
+            <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} url={url}/>}/>
+            <Route path="/allServices" element={ <ProtectedRoute isAuthenticated={isAuthenticated}> <AllServices  url={url}/> </ProtectedRoute> }/>
+            <Route path="/profile" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Profile url={url} /></ProtectedRoute>} />
+            <Route path="/appliForm" element={<ProtectedRoute isAuthenticated={isAuthenticated}><ApplicationForm url={url} /></ProtectedRoute> } />
           </Routes>
         </div>
       </div>

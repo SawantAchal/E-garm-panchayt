@@ -4,9 +4,9 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../context/storeContext';
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = ({ setIsAuthenticated , url}) => {
   const [currentState, setCurrentState] = useState('login');
-  const { url, setToken } = useContext(StoreContext);
+  const [token , setToken] = useState([])
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [data, setData] = useState({
