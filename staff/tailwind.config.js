@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
 theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#F44336',    // Red color for the navbar and button
+        buttonHover: '#D32F2F', // Darker red for button hover
+      },
+    },
   },
   plugins: [],
 }
