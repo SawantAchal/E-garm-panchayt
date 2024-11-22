@@ -7,7 +7,7 @@ const AllApplication = ({url}) => {
     const fetchAllApplication = async () => {
         try {
             const res = await axios.get(`${url}/api/application/allApplication`)
-            console.log(res.data)
+            // console.log(res.data)
             if (res.data.success) {
                 setApplication(res.data.data)
             }else{

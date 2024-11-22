@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import {Routes , Route ,Navigate} from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'dotenv'
 
 const ProtectedRoute = ({ children, isAuthenticated }) => {
   return isAuthenticated ? children : <Navigate to="/" />;
@@ -13,7 +14,7 @@ const ProtectedRoute = ({ children, isAuthenticated }) => {
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState( !!localStorage.getItem('staffToken'));
-  const url = 'http://localhost:4000'
+  const url = import.meta.env.VITE_BACKEND_URL
 
   return (
     <>
