@@ -8,7 +8,7 @@ const applicationSchema = new mongoose.Schema({
   address: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   // documents: { type: String },
-  // status: { type: String, default: 'Pending' }, // Application status
+  status: { type: String, default: 'Pending' }, 
 }, { timestamps: true });
 
 const applicationModel = mongoose.models.application || mongoose.model('application', applicationSchema);
