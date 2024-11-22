@@ -1,5 +1,5 @@
 import './App.css'
-import {Routes , Route , useNavigate} from 'react-router-dom'
+import {Routes , Route } from 'react-router-dom'
 import AddService from './components/AddService'
 import AllServices from './components/AllServices'
 import AddStaff from './components/AddStaff'
@@ -10,8 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from './components/Sidebar'
 import Login from './components/Login'
 import { useState } from 'react'
-import { useEffect } from 'react'
 import AllApplication from './components/AllApplication'
+import 'dotenv'
 
 const ProtectedRoute = ({ children, isAuthenticated }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children, isAuthenticated }) => {
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState( !!localStorage.getItem('adminToken'));
-  const url = 'http://localhost:4000'
+  const url = import.meta.env.VITE_BACKEND_URL
 
   return (
     <>
