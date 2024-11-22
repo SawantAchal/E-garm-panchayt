@@ -1,9 +1,10 @@
 import { createContext, useState } from "react";
+import 'dotenv'
 
 export const StoreContext = createContext(null)
 
 const StoreContextProvider = (props) => {
-    const url = 'http://localhost:4000'
+    const url = import.meta.env.VITE_BACKEND_URL
     const [token , setToken] = useState([])
 
     const contextValue = {
