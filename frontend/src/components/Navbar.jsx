@@ -1,28 +1,30 @@
-import React, { useContext } from 'react'
-import { StoreContext } from '../context/storeContext'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { StoreContext } from '../context/storeContext';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({setIsAuthenticated}) => {
-  const {setToken} = useContext(StoreContext)
-  const navigate = useNavigate()
+const Navbar = ({ setIsAuthenticated }) => {
+  const { setToken } = useContext(StoreContext);
+  const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("gram_panchayt")
-    setIsAuthenticated(false)
-    setToken("")
-    navigate('/')
-  }
+    localStorage.removeItem('gram_panchayt');
+    setIsAuthenticated(false);
+    setToken('');
+    navigate('/');
+  };
 
   return (
-    <>
-      <nav className="bg-gray-800 text-white p-4 fixed w-full h-16 top-0 left-0">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="text-xl font-bold" onClick={() => navigate("/allServices")}>E-Gram Panchayat</div>
-          <button onClick={logout} className="bg-blue-500 px-4 py-2 rounded">Logout</button>
+    <nav className="bg-gradient-to-r from-primary to-secondary text-white fixed w-full h-16 top-0 left-0 shadow-lg z-50">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 h-full">
+        <div className="text-xl font-bold cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate('/allServices')}>
+          E-Gram Panchayat
         </div>
-      </nav>
-    </>
-  )
-}
+        <button onClick={logout} className="bg-accent1 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition duration-300">
+          Logout
+        </button>
+      </div>
+    </nav>
+  );
+};
 
-export default Navbar
+export default Navbar;

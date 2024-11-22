@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const ApplicationForm = () => {
-  const { url, token } = useContext(StoreContext);
+  const { url } = useContext(StoreContext);
   const navigate = useNavigate();
   const location = useLocation();
   const { serviceId, serviceName } = location.state;
@@ -13,21 +13,23 @@ const ApplicationForm = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     address: '',
-    phoneNumber: ''
-    // documents: '',
+    phoneNumber: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-    // console.log(formData)
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(url+'/api/application/apply', { ...formData, serviceId }, { headers: {token: localStorage.getItem('gram_panchayt'),} });
-        // console.log(response.data)
+      const response = await axios.post(
+        `${url}/api/application/apply`,
+        { ...formData, serviceId },
+        { headers: { token: localStorage.getItem('gram_panchayt') } }
+      );
+
       if (response.data.success) {
         toast.success('Application submitted successfully!');
         navigate('/profile');
@@ -41,28 +43,28 @@ const ApplicationForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Apply for {serviceName}</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block font-medium">Full Name</label>
-          <input type="text" name="fullName" className="w-full p-2 border rounded" required value={formData.fullName} onChange={handleChange}/>
+    <div className="max-w-2xl mx-auto mt-10 bg-white rounded-lg shadow-lg p-8">
+      <h2 className="text-3xl font-bold text-primary mb-6 text-center">
+        Apply for {serviceName}
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label htmlFor="fullName" className="block text-sm font-medium text-gray-700"> Full Name </label>
+          <input type="text" name="fullName" id="fullName" className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" required value={formData.fullName} onChange={handleChange}/>
         </div>
-        <div className="mb-4">
-          <label className="block font-medium">Address</label>
-          <input type="text" name="address" className="w-full p-2 border rounded" required value={formData.address} onChange={handleChange}/>
+        <div>
+          <label htmlFor="address" className="block text-sm font-medium text-gray-700"> Address</label>
+          <input type="text" name="address" id="address" className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" required value={formData.address} onChange={handleChange}/>
         </div>
-        <div className="mb-4">
-          <label className="block font-medium">Phone Number</label>
-          <input type="tel" name="phoneNumber" className="w-full p-2 border rounded" required value={formData.phoneNumber} onChange={handleChange}/>
+        <div>
+          <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700"> Phone Number</label>
+          <input type="tel" name="phoneNumber" id="phoneNumber" className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" required value={formData.phoneNumber} onChange={handleChange}/>
         </div>
-        {/* <div className="mb-4">
-          <label className="block font-medium">Upload Documents</label>
-          <input type="file" name="documents" className="w-full p-2 border rounded" onChange={handleChange}/>
-        </div> */}
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-          Submit Application
-        </button>
+        <div className="text-center">
+          <button type="submit" className="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-lg font-bold hover:opacity-90 transition duration-300">
+            Submit Application
+          </button>
+        </div>
       </form>
     </div>
   );
