@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 
 const ProtectedRoute = ({ children, isAuthenticated }) => {
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/" />;
 };
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <Navbar setIsAuthenticated={setIsAuthenticated} />
+      {isAuthenticated && <Navbar url={url} setIsAuthenticated={setIsAuthenticated} />}
       {/* Main Layout */}
       <div className={`flex pt-16 ${!isAuthenticated && 'justify-center bg-lightBg h-screen'}`}>
         {/* Sidebar */}
@@ -29,7 +29,7 @@ function App() {
         {/* Content */}
         <div className={`flex-1 bg-gradient-to-r from-lightBg to-secondary ${isAuthenticated ? 'ml-64' : ''} p-4`}>
           <Routes>
-            <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} url={url}/>}/>
+            <Route path="/" element={<Login setIsAuthenticated={setIsAuthenticated} url={url}/>}/>
             <Route path="/allServices" element={ <ProtectedRoute isAuthenticated={isAuthenticated}> <AllServices  url={url}/> </ProtectedRoute> }/>
             <Route path="/profile" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Profile url={url} /></ProtectedRoute>} />
             <Route path="/appliForm" element={<ProtectedRoute isAuthenticated={isAuthenticated}><ApplicationForm url={url} /></ProtectedRoute> } />
