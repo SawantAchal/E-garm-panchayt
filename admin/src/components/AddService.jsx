@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom'
 
 const AddService = ({ url }) => {
   const [data, setData] = useState({
     name: '',
     description: '',
   });
+  const navigate = useNavigate()
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -23,6 +25,7 @@ const AddService = ({ url }) => {
           description: '',
         });
         toast.success('Service added successfully!');
+        navigate('/allService')
       } else {
         toast.error(response.data.message);
       }

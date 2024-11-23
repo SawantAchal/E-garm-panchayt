@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom'
 
 const AddStaff = ({ url }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
 
   const handleAddStaff = async (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ const AddStaff = ({ url }) => {
         setName('');
         setEmail('');
         setPassword('');
+        navigate('/allStaff')
       } else {
         toast.error(response.data.message);
       }
