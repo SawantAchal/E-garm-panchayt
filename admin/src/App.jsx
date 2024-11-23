@@ -14,7 +14,7 @@ import AllApplication from './components/AllApplication'
 import 'dotenv'
 
 const ProtectedRoute = ({ children, isAuthenticated }) => {
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/" />;
 };
 
 function App() {
@@ -25,17 +25,18 @@ function App() {
     <>
       <ToastContainer />
         <>
-          <Navbar setIsAuthenticated={setIsAuthenticated}/>
+          {isAuthenticated && <Navbar url={url} setIsAuthenticated={setIsAuthenticated} />}
+          {/* <Navbar setIsAuthenticated={setIsAuthenticated}/> */}
           <div  className={`flex pt-16 ${!isAuthenticated && 'justify-center bg-lightBg h-screen'}`}>
             {isAuthenticated && (<Sidebar className="w-1/4 min-h-screen" />)}
-            <div className={`flex-1 ml-64 ${isAuthenticated ? 'ml-64' : ''} p-4`}>
+            <div className={`${isAuthenticated ? 'ml-80': ''} `}>
               <Routes>
-                <Route path="/addService" element={<AddService url={url} setIsAuthenticated={setIsAuthenticated}/>} />
-                <Route path="/allService" element={<AllServices url={url} setIsAuthenticated={setIsAuthenticated}/>} />
-                <Route path="/addStaff" element={<AddStaff url={url} setIsAuthenticated={setIsAuthenticated}/>} />
-                <Route path="/allStaff" element={<AllStaff url={url}setIsAuthenticated={setIsAuthenticated} />} />
-                <Route path="/allApplication" element={<AllApplication url={url} setIsAuthenticated={setIsAuthenticated}/>} />
-                <Route path="/login" element={<Login url={url} setIsAuthenticated={setIsAuthenticated}/>} />
+                <Route path="/addService" element={<ProtectedRoute isAuthenticated={isAuthenticated} ><AddService url={url} /></ProtectedRoute >} />
+                <Route path="/allService" element={<ProtectedRoute isAuthenticated={isAuthenticated}><AllServices url={url} /></ProtectedRoute >} />
+                <Route path="/addStaff" element={<ProtectedRoute isAuthenticated={isAuthenticated} ><AddStaff url={url} /></ProtectedRoute >} />
+                <Route path="/allStaff" element={<ProtectedRoute isAuthenticated={isAuthenticated}><AllStaff url={url} /></ProtectedRoute >} />
+                <Route path="/allApplication" element={<ProtectedRoute isAuthenticated={isAuthenticated} ><AllApplication url={url} /></ProtectedRoute >} />
+                <Route path="/" element={<Login url={url} setIsAuthenticated={setIsAuthenticated}/>} />
               </Routes>
             </div>
           </div>
